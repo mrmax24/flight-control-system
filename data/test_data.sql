@@ -1,9 +1,9 @@
 INSERT INTO air_companies (name, company_type, founded_at, is_deleted)
-SELECT 'Company 3', 'Type C', NOW(), false
+SELECT 'Boeing', 'AIRLINE', NOW(), false
     WHERE NOT EXISTS (SELECT 1 FROM air_companies);
 
 INSERT INTO air_companies (name, company_type, founded_at, is_deleted)
-SELECT 'Company 4', 'Type D', NOW(), false
+SELECT 'JetSuite', 'CHARTER', NOW(), false
     WHERE (SELECT COUNT(*) FROM air_companies) = 1;
 
 INSERT INTO airplanes (name, factory_serial_number, air_company_id, number_of_flights, flight_distance, fuel_capacity, type, created_at, is_deleted)
