@@ -8,6 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import management.system.app.model.enums.AirplaneType;
@@ -17,7 +19,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Data
 @Table(name = "airplanes")
-@SQLDelete(sql = "UPDATE airplanes SET is_deleted = TRUE WHERE id = ?")
+@SQLDelete(sql = "UPDATE airplanes SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 public class Airplane {
     @Id
@@ -30,8 +32,9 @@ public class Airplane {
     @Column(nullable = false)
     private String factorySerialNumber;
 
-    @Column(nullable = false)
-    private Long airCompanyId;
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private AirCompany airCompany;
 
     @Column(nullable = false)
     private int numberOfFlights;

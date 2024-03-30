@@ -6,5 +6,5 @@ import management.system.app.dto.airplane.AirplaneRequestDto;
 public interface AirplaneService {
     AirplaneDto save(AirplaneRequestDto requestDto);
 
-    AirplaneDto moveAirplane(Long airplaneId, Long newCompanyId);
+    AirplaneDto moveAirplane(Long id, Long newCompanyId);
 }

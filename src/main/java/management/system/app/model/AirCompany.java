@@ -17,7 +17,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Data
 @Table(name = "air_companies")
-@SQLDelete(sql = "UPDATE air_companies SET is_deleted = TRUE WHERE id = ?")
+@SQLDelete(sql = "UPDATE air_companies SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 public class AirCompany {
     @Id

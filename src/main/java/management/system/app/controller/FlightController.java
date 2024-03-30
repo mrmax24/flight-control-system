@@ -17,8 +17,13 @@ public class FlightController {
     private final FlightService flightService;
 
     @GetMapping
-    public List<FlightDto> findAllByAirCompanyIdAndFlightStatus(
+    public List<FlightDto> findAllByAirCompanyNameAndFlightStatus(
             @RequestParam String companyName, @RequestParam FlightStatus flightStatus) {
-        return flightService.findAllByAirCompanyIdAndFlightStatus(companyName, flightStatus);
+        return flightService.findAllByAirCompany_NameAndFlightStatus(companyName, flightStatus);
+    }
+
+    @GetMapping("/active")
+    public List<FlightDto> getAllActiveFlightsStartedBefore24HoursAgo() {
+        return flightService.findAllByFlightStatusActiveAndStartedAtBefore();
     }
 }

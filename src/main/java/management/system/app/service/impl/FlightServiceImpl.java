@@ -1,5 +1,7 @@
 package management.system.app.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,17 @@ public class FlightServiceImpl implements FlightService {
     private final FlightMapper flightMapper;
 
     @Override
-    public List<FlightDto> findAllByAirCompanyIdAndFlightStatus(String name,
-                                                             FlightStatus flightStatus) {
-        return flightRepository.findAllByAirCompanyIdAndFlightStatus(name, flightStatus)
+    public List<FlightDto> findAllByAirCompany_NameAndFlightStatus(String name,
+                                                                   FlightStatus flightStatus) {
+        return flightRepository.findAllByAirCompany_NameAndFlightStatus(name, flightStatus)
+                .stream().map(flightMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FlightDto> findAllByFlightStatusActiveAndStartedAtBefore() {
+        LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
+        LocalDate toLocalDate = twentyFourHoursAgo.toLocalDate();
+        return flightRepository.findAllByFlightStatusAndStartedAtBefore(FlightStatus.ACTIVE, toLocalDate)
                 .stream().map(flightMapper::toDto).collect(Collectors.toList());
     }
 }

@@ -27,7 +27,7 @@ public class AirplaneServiceImpl implements AirplaneService {
         Airplane airplane = airplaneRepository.findById(airplaneId)
                 .orElseThrow(() -> new EntityNotFoundException("Airplane with ID "
                         + airplaneId + " not found"));
-        airplane.setAirCompanyId(newCompanyId);
+        airplane.getAirCompany().setId(newCompanyId);
         return airplaneMapper.toDto(airplaneRepository.save(airplane));
     }
 }

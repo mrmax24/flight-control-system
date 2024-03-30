@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +23,13 @@ public class AirplaneController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
-    public AirplaneDto createCompany(@RequestBody @Valid AirplaneRequestDto requestDto) {
+    public AirplaneDto createAirplane(@RequestBody @Valid AirplaneRequestDto requestDto) {
         return airplaneService.save(requestDto);
     }
 
     @PutMapping("/{id}/move/{companyId}")
-    public AirplaneDto moveAirplaneToCompany(@PathVariable Long id,
-                                             @PathVariable Long companyId) {
+    public AirplaneDto moveAirplaneToOtherCompany(@PathVariable Long id,
+                                                  @PathVariable Long companyId) {
         return airplaneService.moveAirplane(id, companyId);
     }
 }
