@@ -1,4 +1,4 @@
-package management.system.app.dto;
+package management.system.app.dto.company;
 
 import java.time.LocalDate;
 import lombok.Getter;

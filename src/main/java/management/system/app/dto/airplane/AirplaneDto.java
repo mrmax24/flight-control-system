@@ -1,4 +1,4 @@
-package management.system.app.dto;
+package management.system.app.dto.airplane;
 
 import java.time.LocalDate;
 import lombok.Getter;

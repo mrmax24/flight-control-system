@@ -1,8 +1,8 @@
 package management.system.app.service;
 
 import java.util.List;
-import management.system.app.dto.AirCompanyDto;
-import management.system.app.dto.AirCompanyRequestDto;
+import management.system.app.dto.company.AirCompanyDto;
+import management.system.app.dto.company.AirCompanyRequestDto;
 import org.springframework.data.domain.Pageable;
 
 public interface AirCompanyService {
@@ -12,8 +12,9 @@ public interface AirCompanyService {
 
     AirCompanyDto findById(Long id);
 
+    AirCompanyDto findByName(String name);
+
     AirCompanyDto updateById(Long id, AirCompanyRequestDto createBookDto);
 
     void deleteById(Long id);
-
 }

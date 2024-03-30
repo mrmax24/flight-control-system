@@ -1,8 +1,8 @@
 package management.system.app.mapper;
 
 import management.system.app.config.MapperConfig;
-import management.system.app.dto.AirCompanyDto;
-import management.system.app.dto.AirCompanyRequestDto;
+import management.system.app.dto.company.AirCompanyDto;
+import management.system.app.dto.company.AirCompanyRequestDto;
 import management.system.app.model.AirCompany;
 import org.mapstruct.Mapper;
 

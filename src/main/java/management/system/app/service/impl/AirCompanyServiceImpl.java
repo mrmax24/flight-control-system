@@ -3,8 +3,8 @@ package management.system.app.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import management.system.app.dto.AirCompanyDto;
-import management.system.app.dto.AirCompanyRequestDto;
+import management.system.app.dto.company.AirCompanyDto;
+import management.system.app.dto.company.AirCompanyRequestDto;
 import management.system.app.exception.EntityNotFoundException;
 import management.system.app.mapper.AirCompanyMapper;
 import management.system.app.model.AirCompany;
@@ -36,7 +36,13 @@ public class AirCompanyServiceImpl implements AirCompanyService {
     @Override
     public AirCompanyDto findById(Long id) {
         AirCompany airCompany = airCompanyRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Can't find book by id: " + id));
+                () -> new EntityNotFoundException("Can't find company by ID: " + id));
+        return airCompanyMapper.toDto(airCompany);
+    }
+
+    @Override
+    public AirCompanyDto findByName(String name) {
+        AirCompany airCompany = airCompanyRepository.findByName(name);
         return airCompanyMapper.toDto(airCompany);
     }
 
