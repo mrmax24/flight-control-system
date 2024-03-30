@@ -29,7 +29,8 @@ public class FlightServiceImpl implements FlightService {
     public List<FlightDto> findAllByFlightStatusActiveAndStartedAtBefore() {
         LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
         LocalDate toLocalDate = twentyFourHoursAgo.toLocalDate();
-        return flightRepository.findAllByFlightStatusAndStartedAtBefore(FlightStatus.ACTIVE, toLocalDate)
+        return flightRepository.findAllByFlightStatusAndStartedAtBefore(
+                FlightStatus.ACTIVE, toLocalDate)
                 .stream().map(flightMapper::toDto).collect(Collectors.toList());
     }
 }

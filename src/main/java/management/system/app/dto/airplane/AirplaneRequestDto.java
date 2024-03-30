@@ -1,10 +1,9 @@
 package management.system.app.dto.airplane;
 
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 import management.system.app.model.enums.AirplaneType;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
