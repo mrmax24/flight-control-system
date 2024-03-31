@@ -26,3 +26,10 @@ INSERT INTO flights (flight_status, company_id, airplane_id, departure_country, 
 SELECT 'ACTIVE', 2, 2, 'USA', 'Poland', 2000, 4, NOW() - INTERVAL 25 HOUR, NOW(), NOW(), NOW(), false
 WHERE (SELECT COUNT(*) FROM flights) = 2;
 
+INSERT INTO flights (flight_status, company_id, airplane_id, departure_country, destination_country, distance, estimated_flight_time, started_at, ended_at, delay_started_at, created_at, is_deleted)
+SELECT 'COMPLETED', 2, 2, 'Australia', 'Netherlands', 2000, 4, NOW() - INTERVAL 25 HOUR, NOW(), NOW(), NOW(), false
+WHERE (SELECT COUNT(*) FROM flights) = 2;
+
+
+
+

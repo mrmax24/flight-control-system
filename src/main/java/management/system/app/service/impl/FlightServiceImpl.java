@@ -1,15 +1,24 @@
 package management.system.app.service.impl;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import management.system.app.dto.flight.ChangeFlightStatusDto;
 import management.system.app.dto.flight.FlightDto;
+import management.system.app.dto.flight.FlightRequestDto;
+import management.system.app.dto.flight.FlightSearchParametersDto;
 import management.system.app.mapper.FlightMapper;
+import management.system.app.model.Flight;
 import management.system.app.model.enums.FlightStatus;
 import management.system.app.repository.FlightRepository;
+import management.system.app.repository.impl.FlightSpecificationBuilder;
 import management.system.app.service.FlightService;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +26,19 @@ import org.springframework.stereotype.Service;
 public class FlightServiceImpl implements FlightService {
     private final FlightRepository flightRepository;
     private final FlightMapper flightMapper;
+    private final FlightSpecificationBuilder flightSpecificationBuilder;
+
+    @Override
+    public FlightDto save(FlightRequestDto requestDto) {
+        Flight flight = flightMapper.toModel(requestDto);
+        flight.setFlightStatus(FlightStatus.PENDING);
+        return flightMapper.toDto(flightRepository.save(flight));
+    }
+
+    private Flight getFlightById(Long id) {
+        return flightRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Flight by ID: " + id + " was not found"));
+    }
 
     @Override
     public List<FlightDto> findAllByAirCompany_NameAndFlightStatus(String name,
@@ -32,5 +54,48 @@ public class FlightServiceImpl implements FlightService {
         return flightRepository.findAllByFlightStatusAndStartedAtBefore(
                 FlightStatus.ACTIVE, toLocalDate)
                 .stream().map(flightMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FlightDto> findAllCompletedFlightsWithTimeDifferenceGreaterThanEstimated() {
+        List<Flight> completedFlights = flightRepository
+                .findAllByFlightStatus(FlightStatus.COMPLETED);
+        return completedFlights.stream()
+                .filter(flight -> {
+                    Duration duration = Duration.between(flight.getStartedAt().atStartOfDay(),
+                            flight.getEndedAt().atStartOfDay());
+                    return duration.toHours() > flight.getEstimatedFlightTime();
+                }).map(flightMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public FlightDto changeFlightStatus(Long id, ChangeFlightStatusDto requestDto) {
+        Flight flight = getFlightById(id);
+        FlightStatus newStatus = requestDto.getFlightStatus();
+        LocalDate currentDate = LocalDate.now();
+
+        Map<FlightStatus, Consumer<Flight>> statusUpdateActions = Map.of(
+                FlightStatus.DELAYED, f -> f.setDelayStartedAt(currentDate),
+                FlightStatus.ACTIVE, f -> f.setStartedAt(currentDate),
+                FlightStatus.COMPLETED, f -> f.setEndedAt(currentDate)
+        );
+
+        statusUpdateActions.getOrDefault(newStatus, f -> {
+            throw new IllegalArgumentException("Invalid flight status: " + newStatus);
+        }).accept(flight);
+
+        flight.setFlightStatus(newStatus);
+        return flightMapper.toDto(flightRepository.save(flight));
+    }
+
+    @Override
+    public List<FlightDto> search(FlightSearchParametersDto searchParametersDto) {
+        Specification<Flight> flightSpecification
+                = flightSpecificationBuilder.build(searchParametersDto);
+        return flightRepository.findAll(flightSpecification)
+                .stream()
+                .map(flightMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

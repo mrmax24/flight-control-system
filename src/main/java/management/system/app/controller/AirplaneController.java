@@ -29,6 +29,6 @@ public class AirplaneController {
     @PutMapping("/{id}/move/{companyId}")
     public AirplaneDto moveAirplaneToOtherCompany(@PathVariable Long id,
                                                   @PathVariable Long companyId) {
-        return airplaneService.moveAirplane(id, companyId);
+        return airplaneService.moveAirplaneToOtherCompany(id, companyId);
     }
 }

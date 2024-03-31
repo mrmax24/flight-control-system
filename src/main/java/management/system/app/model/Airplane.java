@@ -29,11 +29,11 @@ public class Airplane {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String factorySerialNumber;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
+    @JoinColumn(name = "company_id")
     private AirCompany airCompany;
 
     @Column(nullable = false)

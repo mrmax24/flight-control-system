@@ -19,11 +19,15 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     public AirplaneDto save(AirplaneRequestDto requestDto) {
         Airplane airplane = airplaneMapper.toModel(requestDto);
+        if (requestDto.getAirCompanyId() != null) {
+            return airplaneMapper.toDto(airplaneRepository.save(airplane));
+        }
+        airplane.setAirCompany(null);
         return airplaneMapper.toDto(airplaneRepository.save(airplane));
     }
 
     @Override
-    public AirplaneDto moveAirplane(Long airplaneId, Long newCompanyId) {
+    public AirplaneDto moveAirplaneToOtherCompany(Long airplaneId, Long newCompanyId) {
         Airplane airplane = airplaneRepository.findById(airplaneId)
                 .orElseThrow(() -> new EntityNotFoundException("Airplane with ID "
                         + airplaneId + " not found"));
