@@ -1,7 +1,6 @@
 package management.system.app.service.impl;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +49,11 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<FlightDto> findAllByFlightStatusActiveAndStartedAtBefore() {
         LocalDateTime twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
-        LocalDate toLocalDate = twentyFourHoursAgo.toLocalDate();
-        return flightRepository.findAllByFlightStatusAndStartedAtBefore(
-                FlightStatus.ACTIVE, toLocalDate)
-                .stream().map(flightMapper::toDto).collect(Collectors.toList());
+        List<Flight> activeFlights = flightRepository.findAllByFlightStatusAndStartedAtBefore(
+                FlightStatus.ACTIVE, twentyFourHoursAgo);
+        return activeFlights.stream()
+                .map(flightMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,8 +62,8 @@ public class FlightServiceImpl implements FlightService {
                 .findAllByFlightStatus(FlightStatus.COMPLETED);
         return completedFlights.stream()
                 .filter(flight -> {
-                    Duration duration = Duration.between(flight.getStartedAt().atStartOfDay(),
-                            flight.getEndedAt().atStartOfDay());
+                    Duration duration = Duration.between(flight.getStartedAt(),
+                            flight.getEndedAt());
                     return duration.toHours() > flight.getEstimatedFlightTime();
                 }).map(flightMapper::toDto)
                 .collect(Collectors.toList());
@@ -73,12 +73,12 @@ public class FlightServiceImpl implements FlightService {
     public FlightDto changeFlightStatus(Long id, ChangeFlightStatusDto requestDto) {
         Flight flight = getFlightById(id);
         FlightStatus newStatus = requestDto.getFlightStatus();
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
 
         Map<FlightStatus, Consumer<Flight>> statusUpdateActions = Map.of(
-                FlightStatus.DELAYED, f -> f.setDelayStartedAt(currentDate),
-                FlightStatus.ACTIVE, f -> f.setStartedAt(currentDate),
-                FlightStatus.COMPLETED, f -> f.setEndedAt(currentDate)
+                FlightStatus.DELAYED, f -> f.setDelayStartedAt(currentDateTime),
+                FlightStatus.ACTIVE, f -> f.setStartedAt(currentDateTime),
+                FlightStatus.COMPLETED, f -> f.setEndedAt(currentDateTime)
         );
 
         statusUpdateActions.getOrDefault(newStatus, f -> {

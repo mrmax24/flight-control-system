@@ -1,6 +1,6 @@
 package management.system.app.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,16 +51,16 @@ public class Flight {
     private int estimatedFlightTime;
 
     @Column(nullable = false)
-    private LocalDate startedAt;
+    private LocalDateTime startedAt;
 
     @Column(nullable = false)
-    private LocalDate endedAt;
+    private LocalDateTime endedAt;
 
     @Column(nullable = false)
-    private LocalDate delayStartedAt;
+    private LocalDateTime delayStartedAt;
 
     @Column(nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private boolean isDeleted = false;

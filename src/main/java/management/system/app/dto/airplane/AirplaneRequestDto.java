@@ -16,7 +16,6 @@ public class AirplaneRequestDto {
     private String name;
     @NotBlank
     private String factorySerialNumber;
-    @NotNull
     private Long airCompanyId;
     @PositiveOrZero
     private int numberOfFlights;

@@ -1,6 +1,6 @@
 package management.system.app.repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import management.system.app.model.Flight;
 import management.system.app.model.enums.FlightStatus;
@@ -16,8 +16,8 @@ public interface FlightRepository extends JpaRepository<Flight, Long>,
             String name, FlightStatus flightStatus);
 
     List<Flight> findAllByFlightStatusAndStartedAtBefore(
-            FlightStatus flightStatus, LocalDate date);
+            FlightStatus flightStatus, LocalDateTime date);
 
     List<Flight> findAllByFlightStatusAndStartedAtBeforeAndEndedAtAfter(
-            FlightStatus flightStatus, LocalDate startedAt, LocalDate endedAt);
+            FlightStatus flightStatus, LocalDateTime startedAt, LocalDateTime endedAt);
 }

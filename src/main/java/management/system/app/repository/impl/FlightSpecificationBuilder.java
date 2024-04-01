@@ -1,6 +1,7 @@
 package management.system.app.repository.impl;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,8 @@ public class FlightSpecificationBuilder implements SpecificationBuilder<Flight> 
     private final FlightSpecificationProviderManager flightSpecificationProviderManager;
     private final FlightStatusSpecificationProvider flightStatusSpecificationProvider;
     private final StartedTimeSpecificationProvider startedTimeSpecificationProvider;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Specification<Flight> build(FlightSearchParametersDto searchParameters) {
@@ -32,15 +35,14 @@ public class FlightSpecificationBuilder implements SpecificationBuilder<Flight> 
         }
 
         if (searchParameters.getDates() != null && searchParameters.getDates().length > 0) {
-            List<LocalDate> dateList = Arrays.stream(searchParameters.getDates())
-                    .map(LocalDate::parse)
+            List<LocalDateTime> dateList = Arrays.stream(searchParameters.getDates())
+                    .map(date -> LocalDateTime.parse(date, dateFormatter))
                     .collect(Collectors.toList());
 
             specification = specification.and(flightSpecificationProviderManager
                     .getSpecificationProvider(startedTimeSpecificationProvider.getKey())
                     .getSpecification(Collections.singletonList(dateList)));
         }
-
         return specification;
     }
 }

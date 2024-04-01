@@ -1,6 +1,6 @@
 package management.system.app.dto.flight;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import management.system.app.model.enums.FlightStatus;
@@ -16,8 +16,8 @@ public class FlightDto {
     private String destinationCountry;
     private double distance;
     private int estimatedFlightTime;
-    private LocalDate startedAt;
-    private LocalDate endedAt;
-    private LocalDate delayStartedAt;
-    private LocalDate createdAt;
+    private LocalDateTime startedAt;
+    private LocalDateTime endedAt;
+    private LocalDateTime delayStartedAt;
+    private LocalDateTime createdAt;
 }

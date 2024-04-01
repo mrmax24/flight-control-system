@@ -1,7 +1,6 @@
 package management.system.app.mapper;
 
 import management.system.app.config.MapperConfig;
-import management.system.app.dto.flight.ChangeFlightStatusDto;
 import management.system.app.dto.flight.FlightDto;
 import management.system.app.dto.flight.FlightRequestDto;
 import management.system.app.model.Flight;
@@ -17,8 +16,4 @@ public interface FlightMapper {
     @Mapping(target = "airCompanyId", source = "airCompany.id")
     @Mapping(target = "airplaneId", source = "airplane.id")
     FlightDto toDto(Flight flight);
-
-    Flight toModelAfterChangingStatus(ChangeFlightStatusDto requestDto);
-
-    ChangeFlightStatusDto toDtoAfterChangingStatus(Flight flight);
 }

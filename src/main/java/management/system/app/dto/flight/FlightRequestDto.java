@@ -1,6 +1,6 @@
 package management.system.app.dto.flight;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -25,9 +25,8 @@ public class FlightRequestDto {
     private double distance;
     @Positive
     private int estimatedFlightTime;
-    private LocalDate startedAt;
-    private LocalDate endedAt;
-    private LocalDate delayStartedAt;
-    private LocalDate createdAt;
-
+    private LocalDateTime startedAt;
+    private LocalDateTime endedAt;
+    private LocalDateTime delayStartedAt;
+    private LocalDateTime createdAt;
 }
