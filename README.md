@@ -1,7 +1,8 @@
 # Flight Control Manager
 ## Project description:
 ```
-Rest API service for managing information related to air companies, including flights, airplanes data, and air company details.
+Rest API service for managing information related to air companies, 
+including flights, airplanes data, and air company details.
 ```
 ## Project structure
 
