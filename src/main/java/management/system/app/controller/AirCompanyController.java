@@ -1,5 +1,7 @@
 package management.system.app.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,26 +23,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/companies")
 @RequiredArgsConstructor
+@Tag(name = "Air company management", description = "Endpoints for managing air companies")
 public class AirCompanyController {
     private final AirCompanyService airCompanyService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
+    @Operation(summary = "Create a new book company", description = "Creates a new company")
     public AirCompanyDto createCompany(@RequestBody @Valid AirCompanyRequestDto requestDto) {
         return airCompanyService.save(requestDto);
     }
 
     @GetMapping
+    @Operation(summary = "Get all companies",
+            description = "Returns a list of all available companies")
     public List<AirCompanyDto> findAllCompanies(Pageable pageable) {
         return airCompanyService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get a company by id", description = "Returns a company by id")
     public AirCompanyDto findCompanyById(@PathVariable Long id) {
         return airCompanyService.findById(id);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update a company by id", description = "Updates a company by id")
     public AirCompanyDto updateCompanyById(@PathVariable Long id,
                                            @RequestBody @Valid AirCompanyRequestDto requestDto) {
         return airCompanyService.updateById(id, requestDto);
@@ -48,6 +56,7 @@ public class AirCompanyController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a company by id", description = "Deletes a company by id")
     public void deleteCompanyById(@PathVariable Long id) {
         airCompanyService.deleteById(id);
     }

@@ -14,7 +14,7 @@ public interface AirCompanyService {
 
     AirCompanyDto findByName(String name);
 
-    AirCompanyDto updateById(Long id, AirCompanyRequestDto createBookDto);
+    AirCompanyDto updateById(Long id, AirCompanyRequestDto requestDto);
 
     void deleteById(Long id);
 }

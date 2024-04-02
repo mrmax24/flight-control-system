@@ -9,5 +9,4 @@ import management.system.app.model.enums.FlightStatus;
 @Setter
 public class FlightSearchParametersDto {
     private List<FlightStatus> statuses;
-    private String[] dates;
 }

@@ -11,12 +11,14 @@ import management.system.app.dto.flight.ChangeFlightStatusDto;
 import management.system.app.dto.flight.FlightDto;
 import management.system.app.dto.flight.FlightRequestDto;
 import management.system.app.dto.flight.FlightSearchParametersDto;
+import management.system.app.exception.EntityNotFoundException;
 import management.system.app.mapper.FlightMapper;
 import management.system.app.model.Flight;
 import management.system.app.model.enums.FlightStatus;
 import management.system.app.repository.FlightRepository;
 import management.system.app.repository.impl.FlightSpecificationBuilder;
 import management.system.app.service.FlightService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,15 +36,43 @@ public class FlightServiceImpl implements FlightService {
         return flightMapper.toDto(flightRepository.save(flight));
     }
 
+    @Override
+    public List<FlightDto> findAll(Pageable pageable) {
+        return flightRepository.findAll(pageable)
+                .stream()
+                .map(flightMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public FlightDto findById(Long id) {
+        Flight flight = flightRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't find flight by ID: " + id));
+        return flightMapper.toDto(flight);
+    }
+
+    @Override
+    public FlightDto updateById(Long id, FlightRequestDto requestDto) {
+        Flight flightToUpdate = flightMapper.toModel(requestDto);
+        flightToUpdate.setId(id);
+        Flight savedFlight = flightRepository.save(flightToUpdate);
+        return flightMapper.toDto(flightToUpdate);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        flightRepository.deleteById(id);
+    }
+
     private Flight getFlightById(Long id) {
         return flightRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Flight by ID: " + id + " was not found"));
     }
 
     @Override
-    public List<FlightDto> findAllByAirCompany_NameAndFlightStatus(String name,
+    public List<FlightDto> findAllByAirCompanyNameAndFlightStatus(String name,
                                                                    FlightStatus flightStatus) {
-        return flightRepository.findAllByAirCompany_NameAndFlightStatus(name, flightStatus)
+        return flightRepository.findAllByAirCompanyNameAndFlightStatus(name, flightStatus)
                 .stream().map(flightMapper::toDto).collect(Collectors.toList());
     }
 

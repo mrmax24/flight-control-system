@@ -12,12 +12,9 @@ public interface FlightRepository extends JpaRepository<Flight, Long>,
     List<Flight> findAllByFlightStatus(
             FlightStatus flightStatus);
 
-    List<Flight> findAllByAirCompany_NameAndFlightStatus(
+    List<Flight> findAllByAirCompanyNameAndFlightStatus(
             String name, FlightStatus flightStatus);
 
     List<Flight> findAllByFlightStatusAndStartedAtBefore(
             FlightStatus flightStatus, LocalDateTime date);
-
-    List<Flight> findAllByFlightStatusAndStartedAtBeforeAndEndedAtAfter(
-            FlightStatus flightStatus, LocalDateTime startedAt, LocalDateTime endedAt);
 }

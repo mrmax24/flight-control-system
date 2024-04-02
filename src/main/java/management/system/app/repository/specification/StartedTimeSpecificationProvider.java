@@ -17,7 +17,7 @@ public class StartedTimeSpecificationProvider implements SpecificationProvider<F
 
     @Override
     public Specification<Flight> getSpecification(List<Object> params) {
-        return (root, query, criteriaBuilder) -> root.get(START_TIME_KEY)
-                .in(params);
+        return (root, query, criteriaBuilder) -> criteriaBuilder
+                .equal(root.get(START_TIME_KEY), params);
     }
 }

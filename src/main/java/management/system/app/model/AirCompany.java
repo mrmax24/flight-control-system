@@ -9,13 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import management.system.app.model.enums.CompanyType;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "air_companies")
 @SQLDelete(sql = "UPDATE air_companies SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")

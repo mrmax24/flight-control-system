@@ -25,5 +25,6 @@ public class AirplaneRequestDto {
     private double fuelCapacity;
     @NotNull
     private AirplaneType type;
+    @NotNull
     private LocalDate createdAt;
 }
