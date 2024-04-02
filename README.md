@@ -35,5 +35,13 @@ The application has a Three-Tier Architecture:
 5. Create connection to DB using Database option (Intellij Idea Ultimate);
 6. Run AirCompaniesManagementSystemApplication class;
 7. Set the value of spring.jpa.hibernate.ddl-auto to 'validate' and restart the app
-8. Use prepared postman endpoints to test application;  
+8. Use prepared postman endpoints to test application; 
+
+## Steps to dockerize services and database on your computer:
+1. Add your DB properties from **application.properties** to .env file
+2. Install Docker Desktop and run it;
+3. Run ```docker build -t spring-boot-api .```
+4. Run ```docker-compose up```
+
+
 
